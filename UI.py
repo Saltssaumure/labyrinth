@@ -7,7 +7,7 @@ from PIL import Image, ImageTk
 root = tk.Tk()
 root.geometry('900x900')
 root.resizable(False, False)
-root.title('Button Demo')
+root.title('Labyrinth')
 
 
 upImg = Image.open("up.png")
