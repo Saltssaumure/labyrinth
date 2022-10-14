@@ -2,47 +2,54 @@ import tkinter as tk
 from tkinter import ttk, PhotoImage
 from PIL import Image, ImageTk
 
+img_num = 0
 
 # root window
 root = tk.Tk()
-root.geometry('900x900')
-root.resizable(False, False)
 root.title('Labyrinth')
+
+testImg2 = Image.open("test2.png")
+testImg2 = testImg2.resize((500, 500), Image.ANTIALIAS)
+testImgTk2 = ImageTk.PhotoImage(testImg2)
+
+testImg = Image.open("test.png")
+testImg = testImg.resize((500, 500), Image.ANTIALIAS)
+testImgTk = ImageTk.PhotoImage(testImg)
+panel = tk.Label(root, image = testImgTk)
+panel.grid(row = 0, column=0, columnspan=3)
 
 
 upImg = Image.open("up.png")
-
 upImg = upImg.resize((20, 20))
-
 leftImg = upImg.rotate(90)
-
 rightImg = upImg.rotate(270)
 
 upImgTK = ImageTk.PhotoImage(upImg)
 leftImgTK = ImageTk.PhotoImage(leftImg)
 rightImgTK = ImageTk.PhotoImage(rightImg)
 
+def forward():
+    global panel
+    global img_num
+    if img_num == 0:
+        panel.grid_forget()
+        panel = tk.Label(root, image=testImgTk2)
+        panel.grid(row=0,column=0,columnspan=3)
+        img_num+=1
+    else:
+        panel.grid_forget()
+        panel = tk.Label(root, image=testImgTk)
+        panel.grid(row=0,column=0,columnspan=3)
+        img_num=0
+        
 # exit button
-forward_button = ttk.Button(
-    root,
-    image=upImgTK,
-    command=lambda: root.quit()
-)
+forward_button = tk.Button(root, image=upImgTK, command=lambda: root.quit())
+forward_button.grid(row=1, column=1, padx=5, pady=5)
 
-left_button = ttk.Button(
-    root,
-    image=leftImgTK,
-    command=lambda: root.quit()
-)
+left_button = tk.Button(root, image=leftImgTK, command=lambda: root.quit())
+left_button.grid(row=1, column=0, padx=5, pady=5)
 
-right_button = ttk.Button(
-    root,
-    image=rightImgTK,
-    command=lambda: root.quit()
-)
-
-forward_button.place(x=400,y=800, width=50, height=50)
-left_button.place(x=100,y=800, width=50, height=50)
-right_button.place(x=700,y=800, width=50, height=50)
+right_button = tk.Button(root, image=rightImgTK, command=forward)
+right_button.grid(row=1, column=2, padx=5, pady=5)
 
 root.mainloop()
