@@ -4,8 +4,11 @@ from PIL import Image, ImageTk
 if not hasattr(Image, 'Resampling'):  # Pillow<9.0
     Image.Resampling = Image
 from rooms_dict import rooms
+import pygame
 
-#print(rooms)
+#initialise pygame
+pygame.mixer.init()
+
 #name behind next left right items mobs
 
 cur_room = 0
@@ -49,6 +52,23 @@ imgTest = Image.open("images/not_" + rooms[cur_room]["name"] + ".jpeg")
 imgTest = imgTest.resize((500, 500), Image.Resampling.LANCZOS)
 imgTestTk = ImageTk.PhotoImage(imgTest)
 
+#music functions
+def background():
+    pygame.mixer.music.load('audio/Background_music.mp3')
+    pygame.mixer.music.play()
+
+def scream():
+    pygame.mixer.music.load('audio/Scream_1.mp3')
+    pygame.mixer.music.play()
+
+def get_item():
+    pygame.mixer.music.load('audio/.mp3')
+    pygame.mixer.music.play()
+    
+def stop_song():
+    pygame.mixer.music.stop()
+    pygame.mixer.music.unload()
+
 def forward():
     global panel
     global cur_room
@@ -79,5 +99,7 @@ left_button.grid(row=1, column=0, padx=5, pady=5)
 
 right_button = tk.Button(root, image=rightImgTK, command=lambda: root.quit())
 right_button.grid(row=1, column=2, padx=5, pady=5)
+
+background()
 
 root.mainloop()
