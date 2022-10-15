@@ -6,7 +6,7 @@ if not hasattr(Image, 'Resampling'):  # Pillow<9.0
 from rooms_dict import rooms
 import pygame
 
-#image crop functions
+#image crop functions COPIED
 def resize(filename):
     return Image.open(filename).resize((500, 500),Image.Resampling.LANCZOS)
 
