@@ -3,10 +3,8 @@ import tkinter as tk
 from PIL import Image, ImageTk
 from rooms_dict import rooms
 
+#print(rooms)
 #name behind next left right items mobs
-
-#rooms = {0:{"name":"start_room","behind":None, "next":1, "left":None, "right":None, "items":None, "mobs":None},
-         #1:{"name":"not_start_room","behind":0, "next":None, "left":None, "right":None, "items":None, "mobs":None}}
 
 cur_room = 0
 
