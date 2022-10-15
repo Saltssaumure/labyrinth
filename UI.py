@@ -1,9 +1,5 @@
 import tkinter as tk
-from tkinter import ttk, PhotoImage
 from PIL import Image, ImageTk
-import os
-
-dir_path = os.path.dirname(os.path.realpath(__file__))
 
 img_num = 0
 
@@ -11,18 +7,18 @@ img_num = 0
 root = tk.Tk()
 root.title('Labyrinth')
 
-testImg2 = Image.open("test2.png")
-testImg2 = testImg2.resize((500, 500), Image.ANTIALIAS)
+testImg2 = Image.open("images/test2.png")
+testImg2 = testImg2.resize((500, 500), Image.Resampling.LANCZOS)
 testImgTk2 = ImageTk.PhotoImage(testImg2)
 
-testImg = Image.open("test.png")
-testImg = testImg.resize((500, 500), Image.ANTIALIAS)
+testImg = Image.open("images/test.png")
+testImg = testImg.resize((500, 500), Image.Resampling.LANCZOS)
 testImgTk = ImageTk.PhotoImage(testImg)
 panel = tk.Label(root, image = testImgTk)
 panel.grid(row = 0, column=0, columnspan=3)
 
 
-upImg = Image.open(dir_path+"/images/actions/up.jpeg")
+upImg = Image.open("images/actions/up.jpeg")
 upImg = upImg.resize((40, 40))
 leftImg = upImg.rotate(90)
 rightImg = upImg.rotate(270)
