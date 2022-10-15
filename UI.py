@@ -1,6 +1,9 @@
 import tkinter as tk
 from tkinter import ttk, PhotoImage
 from PIL import Image, ImageTk
+import os
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
 
 img_num = 0
 
@@ -19,7 +22,7 @@ panel = tk.Label(root, image = testImgTk)
 panel.grid(row = 0, column=0, columnspan=3)
 
 
-upImg = Image.open("up.jpeg")
+upImg = Image.open(dir_path+"/images/actions/up.jpeg")
 upImg = upImg.resize((40, 40))
 leftImg = upImg.rotate(90)
 rightImg = upImg.rotate(270)
