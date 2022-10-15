@@ -14,5 +14,6 @@ for idx,room in enumerate(rooms_list):
         "left": int(room[3]) if room[3] != "None" else None,
         "right": int(room[4]) if room[4] != "None" else None,
         "items": room[5] if room[5] != "None" else None,
-        "mobs": [mobs[random.randint(0,7)] for x in range(random.randint(int(room[6].strip().split("/")[0]), int(room[6].strip().split("/")[1])))]
+        "mobs": [mobs[random.randint(0,7)] for x in range(random.randint(int(room[6].strip().split("/")[0]), int(room[6].strip().split("/")[1])))],
+        "dir": room[7].strip()
     }

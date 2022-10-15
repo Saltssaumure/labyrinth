@@ -9,6 +9,7 @@ from imgs_dict import read_images
 #name behind next left right items mobs
 
 cur_room = 0
+dir = "R"
 
 # root window
 root = tk.Tk()
@@ -34,6 +35,22 @@ panelleft.grid(row = 0, column=0, columnspan=1)
 panelright = tk.Label(root, image = imgs_dictionary_right[None], borderwidth=0)
 panelright.grid(row = 0, column=2, columnspan=1)
 
+
+upCompass = Image.open("images/icons/compass.jpg")
+upCompass = upCompass.resize((60, 60))
+downCompass = upCompass.rotate(180)
+leftCompass = upCompass.rotate(90)
+rightCompass = upCompass.rotate(270)
+
+compass = {}
+compass["U"] = ImageTk.PhotoImage(upCompass)
+compass["D"] = ImageTk.PhotoImage(downCompass)
+compass["L"] = ImageTk.PhotoImage(leftCompass)
+compass["R"] = ImageTk.PhotoImage(rightCompass)
+
+panelCompass = tk.Label(root, image=compass[dir])
+panelCompass.grid(row=2, column=2)
+
 upImg = Image.open("images/actions/up.jpeg")
 upImg = upImg.resize((40, 40))
 downImg = upImg.rotate(180)
@@ -54,8 +71,13 @@ def newArea(room_index):
     global panel
     global panelleft
     global panelright
+    global panelCompass
     global rooms
     print(rooms[room_index]["name"])
+
+    panelCompass.grid_forget()
+    panelCompass = tk.Label(root,image=compass[rooms[room_index]["dir"]])
+    panelCompass.grid(row=2,column=2)
 
     panel.grid_forget()
     panel = tk.Label(root,image=imgs_dictionary_full[room_index], borderwidth=0)
