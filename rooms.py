@@ -20,9 +20,20 @@ for room in rooms:
     room[-1] = mob_count
     room[1] = int(room[1])
     room[-2] = int(room[-2])
+    try:
+        room[2] = int(room[2])
+    except:
+        pass
     if room[-1]>0:
-        room += [random.sample(mobs, room[-1])]
+        room_mobs = random.sample(mobs, room[-1])
+        if len(room_mobs)==1:
+            room_mobs = room_mobs[0]
+        room += [room_mobs]
+    print(room)
+    print()
 
 #print(rooms)
-
-current_room = rooms[0]
+print()
+current_room = rooms[1]
+print(current_room)
+print(rooms[rooms[1][1]])
