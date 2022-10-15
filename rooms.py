@@ -3,7 +3,7 @@ import random
 
 with open('rooms.csv', newline='') as csvfile:
     rooms = list(csv.reader(csvfile))
-rooms[0][0] = rooms[0][0].replace("\ufeff", '')
+rooms[0][0] = "start_room"
 
 mobs = ["mob1", "mob2", "mob3", "mob4", "mob5", "mob6", "mob7", "mob8"] # mob names set to change
 
