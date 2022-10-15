@@ -1,7 +1,5 @@
-from ast import Delete
 from multiprocessing.connection import wait
 import tkinter as tk
-from turtle import width
 from PIL import Image, ImageTk
 
 #name behind next left right items mobs
