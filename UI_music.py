@@ -127,11 +127,22 @@ def move(direction):
     if scream_time%15==0:
         scream()
 
+def pick_up():
+    if rooms[cur_room]["items"]==None:
+        text_box.config(state="normal")
+        text_box.delete(0.0, "end")
+        text_box.insert("end", "There are no items here.")
+        text_box.config(state="disabled")
+    else:
+        rooms[cur_room]["items"] = None
+        get_key()
+
 def win():
     forward_button.configure(command=None)
     down_button.configure(command=None)
     left_button.configure(command=None)
     right_button.configure(command=None)
+    pick_up_button.configure(command=None)
     win_audio()
 
 # exit button
@@ -146,6 +157,9 @@ left_button.grid(row=1, column=0, padx=5, pady=5)
 
 right_button = tk.Button(root, image=rightImgTK, command=lambda:move("right"))
 right_button.grid(row=1, column=2, padx=5, pady=5)
+
+pick_up_button = tk.Button(root, image=downImgTK, command=lambda:pick_up())
+pick_up_button.grid(row=2, column=2, padx=5, pady=5)
 
 background()
 
