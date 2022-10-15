@@ -24,13 +24,13 @@ crdr_13,21,23,24,None,None,0/0
 room_10,22,None,24,None,None,4/4
 dead_end_3,22,None,None,23,None,0/0
 room_9,17,None,16,26,None,4/4
-room_11,25,None,27,None,None,6/6
+room_11,25,None,None,27,None,6/6
 room_12,26,29,None,None,None,5/5
 dead_end_5,33,None,None,None,None,0/0
 crdr_13,None,30,27,None,None,0/0
 crdr_14,29,31,None,None,None,0/0
 boss_room,30,35,None,None,None,1/1
 crdr_15,9,14,None,15,None,0/0
-crdr_12,34,None,28,17,None,0/0
+crdr_12,None,34,28,17,None,0/0
 room_10,33,22,None,None,None,4/5
 escape,31,END,None,None,None,0/0
