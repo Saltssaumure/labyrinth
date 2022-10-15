@@ -8,7 +8,7 @@ dead_end_1,5,None,None,None,None,0/0
 crdr_4,2,9,None,None,None,0/0
 crdr_5,4,13,12,9,None,0/0
 room_3,7,32,8,10,None,1/2
-crdr_6,9,11,None,None,0/0
+crdr_6,9,11,None,None,None,0/0
 room_4,10,None,None,None,key,2/2
 room_5,8,None,None,None,None,0/0
 room_6,8,14,18,None,None,3/3
@@ -33,4 +33,4 @@ boss_room,30,35,None,None,None,1/1
 crdr_15,9,14,None,15,None,0/0
 crdr_12,34,None,28,17,None,0/0
 room_10,33,22,None,None,None,4/5
-escape,31,-1,None,None,None,0/0
+escape,31,END,None,None,None,0/0
