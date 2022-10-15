@@ -9,7 +9,7 @@ rooms = {}
 for idx,room in enumerate(rooms_list):
     rooms[idx] = {
         "name": room[0],
-        "behind": int(room[1]),
+        "behind": int(room[1]) if room[1] != "None" else None,
         "next": int(room[2]) if room[2] != "None"  and room[2] != "END" else None,
         "left": int(room[3]) if room[3] != "None" else None,
         "right": int(room[4]) if room[4] != "None" else None,
