@@ -1,9 +1,14 @@
-import csv
 import random
 
-with open('rooms.csv', newline='') as csvfile:
-    rooms = list(csv.reader(csvfile))
-rooms[0][0] = "start_room"
+
+rooms = []
+
+with open("rooms.csv", encoding='utf-8-sig') as file:
+    lines = file.readlines()
+file.close()
+
+for line in lines:
+    rooms.append(line.split(","))
 
 mobs = ["mob1", "mob2", "mob3", "mob4", "mob5", "mob6", "mob7", "mob8"] # mob names set to change
 
@@ -42,5 +47,5 @@ for room in rooms:
         if len(room_mobs)==1:
             room_mobs = room_mobs[0]
         room += [room_mobs]
-    print(room)
-    print()
+
+print(rooms)

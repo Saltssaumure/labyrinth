@@ -1,11 +1,20 @@
+from ast import Delete
+from multiprocessing.connection import wait
 import tkinter as tk
+from turtle import width
 from PIL import Image, ImageTk
 
-img_num = 0
+cur_room = "start_room"
 
 # root window
 root = tk.Tk()
 root.title('Labyrinth')
+
+text_box = tk.Text(root, height=1, width=50)
+text_box.grid(row=2, column=0, columnspan=3, pady=5)
+text_box.insert("end", "Welcome to the Labyrinth.")
+#text_box.delete(0.0, "end")
+text_box.config(state="disabled")
 
 testImg2 = Image.open("images/test2.png")
 testImg2 = testImg2.resize((500, 500), Image.Resampling.LANCZOS)
