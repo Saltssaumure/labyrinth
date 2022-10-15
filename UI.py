@@ -1,6 +1,8 @@
 from multiprocessing.connection import wait
 import tkinter as tk
 from PIL import Image, ImageTk
+if not hasattr(Image, 'Resampling'):  # Pillow<9.0
+    Image.Resampling = Image
 from rooms_dict import rooms
 
 #name behind next left right items mobs
