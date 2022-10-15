@@ -8,7 +8,7 @@ rooms[0][0] = "start_room"
 mobs = ["mob1", "mob2", "mob3", "mob4", "mob5", "mob6", "mob7", "mob8"] # mob names set to change
 
 # what each index is:
-# room name, back room, room ahead, [room to left, room to right] (0 for no rooms in hallway), Items, Number of mobs in room, list of mobs in room (randomly selected from list of mobs)
+# room name, room behind, room ahead (Empty is nothing ahead), [room to left, room to right] (0 for no rooms in hallway, list of one element means one room to left, no room to right), Items, Number of mobs in room, list of mobs in room (randomly selected from list of mobs)
 
 for room in rooms:
     mob_count = room[-1]
@@ -44,8 +44,3 @@ for room in rooms:
         room += [room_mobs]
     print(room)
     print()
-
-#print(rooms)
-current_room = rooms[15]
-print(current_room)
-print(rooms[rooms[1][1]])
