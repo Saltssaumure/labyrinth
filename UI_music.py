@@ -50,6 +50,12 @@ def win_audio():
     text_box.insert("end", "You escaped the dungeon! You win!.")
     text_box.config(state="disabled")
 
+def boss_music():
+    if pygame.mixer.music.get_busy()==True:
+        stop_song()
+    pygame.mixer.music.load('audio/Boss_music.mp3')
+    pygame.mixer.music.play(-1)
+
 def stop_song():
     pygame.mixer.music.stop()
     pygame.mixer.music.unload()
@@ -100,6 +106,10 @@ imgTestTk = ImageTk.PhotoImage(imgTest)
 #pass through variable here to change image
 def newArea(room_index):
     print(rooms[room_index]["name"])
+    if rooms[room_index]["name"]=="boss_room":
+        boss_music()
+    elif rooms[room_index]["name"]=="crdr_14" or rooms[room_index]["name"]=="escape":
+        background()
     panel = tk.Label(root, image=imgTestTk)
     panel.grid(row=0,column=0,columnspan=3)
 
