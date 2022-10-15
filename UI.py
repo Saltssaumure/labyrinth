@@ -19,8 +19,8 @@ panel = tk.Label(root, image = testImgTk)
 panel.grid(row = 0, column=0, columnspan=3)
 
 
-upImg = Image.open("up.png")
-upImg = upImg.resize((20, 20))
+upImg = Image.open("up.jpeg")
+upImg = upImg.resize((40, 40))
 leftImg = upImg.rotate(90)
 rightImg = upImg.rotate(270)
 
