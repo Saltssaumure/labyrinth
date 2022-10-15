@@ -1,0 +1,49 @@
+body {
+    padding: 0;
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #111;
+    display: flex;
+    justify-content: center;
+    // align-items: flex-start;
+    align-items: center;
+}
+
+.img-container {
+    $size: 256px;
+    $half: calc($size / 2);
+    $angle: 90deg;
+
+    border: 1px solid red;
+    position: relative;
+
+    height: $half;
+    width: $size;
+
+    transform: perspective($size * 1.5);
+    perspective: $size * 10;
+    transform-style: preserve-3d;
+
+    img {
+
+        position: absolute;
+        backface-visibility: visible;
+
+        &.left {
+            transform: translateZ($half) translateX((-$half)) rotateY((-$angle));
+        }
+        &.right {
+            transform: translateZ($half) translateX($half) rotateY($angle);
+        }
+        &.up {
+            transform: translateZ($half) translateY((-$half)) rotateX($angle);
+        }
+        &.down {
+            transform: translateZ($half) translateY($half) rotateX((-$angle));
+        }
+        &.centre {
+            transform: translateZ($half);
+        }
+    }
+}
