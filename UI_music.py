@@ -1,17 +1,17 @@
 from multiprocessing.connection import wait
-import random
 import tkinter as tk
-from turtle import back
 from PIL import Image, ImageTk
 if not hasattr(Image, 'Resampling'):  # Pillow<9.0
     Image.Resampling = Image
 from rooms_dict import rooms
+from imgs_dict import read_images
+import random
 import pygame
 
 #initialise pygame
 pygame.mixer.init()
 
-#inventory = []
+inventory = []
 
 #music functions
 def background():
@@ -62,12 +62,14 @@ cur_room = 0
 root = tk.Tk()
 root.title('Labyrinth')
 
+imgs_dictionary = read_images(rooms, "name", "images/rooms/", ".jpg")
+
 text_box = tk.Text(root, height=1, width=50)
 text_box.grid(row=3, column=0, columnspan=3, pady=5)
 text_box.insert("end", "Welcome to the Labyrinth.")
 text_box.config(state="disabled")
 
-testImg2 = Image.open("/images/rooms/eyes.jpg")
+testImg2 = Image.open("images/rooms/" + rooms[cur_room]["name"] + ".jpg")
 testImg2 = testImg2.resize((500, 500), Image.Resampling.LANCZOS)
 testImgTk2 = ImageTk.PhotoImage(testImg2)
 
@@ -91,24 +93,24 @@ downImgTK = ImageTk.PhotoImage(downImg)
 leftImgTK = ImageTk.PhotoImage(leftImg)
 rightImgTK = ImageTk.PhotoImage(rightImg)
 
-imgTest = Image.open("/images/rooms/eyes.jpg")
-imgTest = imgTest.resize((500, 500), Image.Resampling.LANCZOS)
-imgTestTk = ImageTk.PhotoImage(imgTest)
-
-imgTest = Image.open("/images/rooms/eyes.jpg")
+imgTest = Image.open("images/rooms/" + rooms[cur_room]["name"] + ".jpg")
 imgTest = imgTest.resize((500, 500), Image.Resampling.LANCZOS)
 imgTestTk = ImageTk.PhotoImage(imgTest)
 
 #pass through variable here to change image
-def newArea():
+def newArea(room_index):
+    print(rooms[room_index]["name"])
     panel = tk.Label(root, image=imgTestTk)
+    panel.grid(row=0,column=0,columnspan=3)
+
+    panel.grid_forget()
+    panel = tk.Label(root,image=imgs_dictionary[room_index])
     panel.grid(row=0,column=0,columnspan=3)
 
     text_box.config(state="normal")
     text_box.delete(0.0, "end")
     text_box.insert("end", "You move to a new area.")
     text_box.config(state="disabled")
-
 
 def nothingHere():
     text_box.config(state="normal")
@@ -121,9 +123,9 @@ def move(direction):
     global cur_room
     scream_time = random.randrange(1,30)
     if rooms[cur_room][direction] != None:
-        cur_room = rooms[cur_room][direction]
         panel.grid_forget()
-        newArea()
+        newArea(rooms[cur_room][direction])
+        cur_room = rooms[cur_room][direction]
     else:
         nothingHere()
     if scream_time%15==0:
@@ -138,7 +140,7 @@ def pick_up():
     else:
         rooms[cur_room]["items"] = None
         get_key()
-        #inventory += ["key"]
+        inventory += ["key"]
 
 def win():
     forward_button.configure(command=None)
