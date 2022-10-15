@@ -6,7 +6,6 @@ with open('rooms.csv', newline='') as csvfile:
 rooms[0][0] = rooms[0][0].replace("\ufeff", '')
 
 for room in rooms:
-    print(room)
     mob_count = room[-1]
     
     if '/' in mob_count:
@@ -18,7 +17,8 @@ for room in rooms:
         mob_count = int(mob_count)
     room[-1] = mob_count
     room[1] = int(room[1])
-    print(room)
-    print()
+    room[-2] = int(room[-2])
+
+print(rooms)
 
 current_room = rooms[0]

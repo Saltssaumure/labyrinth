@@ -12,6 +12,6 @@ room_10,9,None,0,5
 big_room,10,None,0,4
 big_room2,10,None,0,6
 hidden_room,11,key,0,1/2
-key_room,10,None,0
-boss_room,15,None,1
+key_room,10,None,0,0
+boss_room,15,None,0,1
 end_room,10,None,0,0
