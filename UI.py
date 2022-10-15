@@ -5,6 +5,37 @@ if not hasattr(Image, 'Resampling'):  # Pillow<9.0
     Image.Resampling = Image
 from rooms_dict import rooms
 
+# Add None room to display image for rooms with no left/right path
+rooms[None] = {"name": "eyes"}
+# Add END room to display image for winning :)
+rooms["END"] = {"name": "eyes"}
+
+#image crop functions
+def getfilename(name):
+    return "images/rooms/" + name + ".jpg"
+
+def resize(filename):
+    return Image.open(filename).resize((500, 500),Image.Resampling.LANCZOS)
+
+def leftcrop(filename):
+    return resize(filename).crop([400,0,500,500])
+
+def rightcrop(filename):
+    return resize(filename).crop([0,0,100,500])
+
+# update images to show for currrent room function
+def updateimgs(cur_room):
+    imgCentre = resize(getfilename( rooms[cur_room]["name"] ))
+    imgCentreTk = ImageTk.PhotoImage(imgCentre)
+
+    imgLeft = leftcrop(getfilename( rooms[rooms[cur_room]["left"]]["name"] ))
+    imgLeftTk = ImageTk.PhotoImage(imgLeft)
+
+    imgRight = rightcrop(getfilename( rooms[rooms[cur_room]["right"]]["name"] ))
+    imgRightTk = ImageTk.PhotoImage(imgRight)
+
+    return imgCentreTk, imgLeftTk, imgRightTk
+
 #print(rooms)
 #name behind next left right items mobs
 
@@ -13,25 +44,26 @@ cur_room = 0
 # root window
 root = tk.Tk()
 root.title('Labyrinth')
+root["bg"] = "#333"
 
 text_box = tk.Text(root, height=1, width=50)
 text_box.grid(row=3, column=0, columnspan=3, pady=5)
 text_box.insert("end", "Welcome to the Labyrinth.")
 text_box.config(state="disabled")
 
-testImg2 = Image.open("images/rooms/" + rooms[cur_room]["name"] + ".jpeg")
-testImg2 = testImg2.resize((500, 500), Image.Resampling.LANCZOS)
-testImgTk2 = ImageTk.PhotoImage(testImg2)
+# initial panels
+imgCentreTk, imgLeftTk, imgRightTk = updateimgs(cur_room)
 
-"""
-testImg = Image.open("images/test.png")
-testImg = testImg.resize((500, 500), Image.Resampling.LANCZOS)
-testImgTk = ImageTk.PhotoImage(testImg)
-"""
-panel = tk.Label(root, image = testImgTk2)
-panel.grid(row = 0, column=0, columnspan=3)
+panel = tk.Label(root, image = imgCentreTk, borderwidth=0)
+panel.grid(row = 0, column=1, columnspan=1)
 
+leftPanel = tk.Label(root, image = imgLeftTk, borderwidth=0)
+leftPanel.grid(row = 0, column=0, columnspan=1)
 
+rightPanel = tk.Label(root, image = imgRightTk, borderwidth=0)
+rightPanel.grid(row = 0, column=2, columnspan=1)
+
+# button images
 upImg = Image.open("images/actions/up.jpeg")
 upImg = upImg.resize((40, 40))
 downImg = upImg.rotate(180)
@@ -43,18 +75,20 @@ downImgTK = ImageTk.PhotoImage(downImg)
 leftImgTK = ImageTk.PhotoImage(leftImg)
 rightImgTK = ImageTk.PhotoImage(rightImg)
 
-imgTest = Image.open("images/rooms/" + rooms[cur_room]["name"] + ".jpeg")
-imgTest = imgTest.resize((500, 500), Image.Resampling.LANCZOS)
-imgTestTk = ImageTk.PhotoImage(imgTest)
-
-imgTest = Image.open("images/rooms/" + rooms[cur_room]["name"] + ".jpeg")
+imgTest = Image.open(getfilename( rooms[cur_room]["name"] ))
 imgTest = imgTest.resize((500, 500), Image.Resampling.LANCZOS)
 imgTestTk = ImageTk.PhotoImage(imgTest)
 
 #pass through variable here to change image
-def newArea():
-    panel = tk.Label(root, image=imgTestTk)
-    panel.grid(row=0,column=0,columnspan=3)
+def newArea(cur_room):
+    updateimgs(cur_room)
+
+    panel = tk.Label(root, image = imgCentreTk, borderwidth=0)
+    panel.grid(row = 0, column=1, columnspan=1)
+    leftPanel = tk.Label(root, image = imgLeftTk, borderwidth=0)
+    leftPanel.grid(row = 0, column=0, columnspan=1)
+    rightPanel = tk.Label(root, image = imgRightTk, borderwidth=0)
+    rightPanel.grid(row = 0, column=2, columnspan=1)
 
     text_box.config(state="normal")
     text_box.delete(0.0, "end")
@@ -68,12 +102,14 @@ def nothingHere():
     text_box.config(state="disabled")
 
 def move(direction):
-    global panel
+    global panel, leftPanel, rightPanel
     global cur_room
     if rooms[cur_room][direction] != None:
         cur_room = rooms[cur_room][direction]
         panel.grid_forget()
-        newArea()
+        leftPanel.grid_forget()
+        rightPanel.grid_forget()
+        newArea(cur_room)
     else:
         nothingHere()
 
