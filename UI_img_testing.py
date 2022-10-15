@@ -13,22 +13,26 @@ cur_room = 0
 # root window
 root = tk.Tk()
 root.title('Labyrinth')
+root["bg"] = "#333"
 
-imgs_dictionary = read_images(rooms, "name", "images/rooms/", ".jpg")
+# Add None room to display image for rooms with no left/right path
+rooms[None] = {"name": "eyes"}
+
+imgs_dictionary_full = read_images(rooms, "name", "images/rooms/", ".jpg")
+imgs_dictionary_left = read_images(rooms, "name", "images/rooms/", ".jpg", "left")
+imgs_dictionary_right = read_images(rooms, "name", "images/rooms/", ".jpg", "right")
 
 text_box = tk.Text(root, height=1, width=50)
 text_box.grid(row=3, column=0, columnspan=3, pady=5)
 text_box.insert("end", "Welcome to the Labyrinth.")
 text_box.config(state="disabled")
 
-testImg2 = Image.open("images/rooms/" + rooms[cur_room]["name"] + ".jpg")
-testImg2 = testImg2.resize((500, 500), Image.Resampling.LANCZOS)
-testImgTk2 = ImageTk.PhotoImage(testImg2)
-
-
-panel = tk.Label(root, image = testImgTk2)
-panel.grid(row = 0, column=0, columnspan=3)
-
+panel = tk.Label(root, image = imgs_dictionary_full[cur_room], borderwidth=0)
+panel.grid(row = 0, column=1, columnspan=1)
+panelleft = tk.Label(root, image = imgs_dictionary_left[None], borderwidth=0)
+panelleft.grid(row = 0, column=0, columnspan=1)
+panelright = tk.Label(root, image = imgs_dictionary_right[None], borderwidth=0)
+panelright.grid(row = 0, column=2, columnspan=1)
 
 upImg = Image.open("images/actions/up.jpeg")
 upImg = upImg.resize((40, 40))
@@ -47,13 +51,21 @@ imgTestTk = ImageTk.PhotoImage(imgTest)
 
 #pass through variable here to change image
 def newArea(room_index):
+    global panel
+    global panelleft
+    global panelright
+    global rooms
     print(rooms[room_index]["name"])
-    panel = tk.Label(root, image=imgTestTk)
-    panel.grid(row=0,column=0,columnspan=3)
 
     panel.grid_forget()
-    panel = tk.Label(root,image=imgs_dictionary[room_index])
-    panel.grid(row=0,column=0,columnspan=3)
+    panel = tk.Label(root,image=imgs_dictionary_full[room_index], borderwidth=0)
+    panel.grid(row=0,column=1,columnspan=1)
+    panelleft.grid_forget()
+    panelleft = tk.Label(root,image=imgs_dictionary_left[rooms[room_index]["left"]], borderwidth=0)
+    panelleft.grid(row=0,column=0,columnspan=1)
+    panelright.grid_forget()
+    panelright = tk.Label(root,image=imgs_dictionary_right[rooms[room_index]["right"]], borderwidth=0)
+    panelright.grid(row=0,column=2,columnspan=1)
 
     text_box.config(state="normal")
     text_box.delete(0.0, "end")
