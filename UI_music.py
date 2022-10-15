@@ -12,30 +12,41 @@ import pygame
 pygame.mixer.init()
 
 #music functions
-def background_first():
+def background():
     pygame.mixer.music.load('audio/Background_music.mp3')
     pygame.mixer.music.play(-1)
 
-def background():
-    pygame.mixer.music.play(-1)
-
 def scream():
+    if pygame.mixer.music.get_busy()==True:
+        stop_song()
     pygame.mixer.music.load('audio/Scream_1.mp3')
     pygame.mixer.music.play()
-    sound = pygame.mixer.Sound('audio/Scream_1.mp3')
-    pygame.mixer.music.queue('audio/Background_music.mp3')
-    background()
+    text_box.config(state="normal")
+    text_box.delete(0.0, "end")
+    text_box.insert("end", "You will die here.")
+    text_box.config(state="disabled")
+    pygame.mixer.music.queue('audio/Background_music.mp3', loops=-1)
 
-def get_item():
+def get_key():
+    if pygame.mixer.music.get_busy()==True:
+        stop_song()
     pygame.mixer.music.load('audio/Getting_Item.mp3')
-    sound = pygame.mixer.Sound('audio/Getting_Item.mp3')
     pygame.mixer.music.play()
-    pygame.mixer.music.queue('audio/Background_music.mp3')
-    background()
+    text_box.config(state="normal")
+    text_box.delete(0.0, "end")
+    text_box.insert("end", "You picked up a key.")
+    text_box.config(state="disabled")
+    pygame.mixer.music.queue('audio/Background_music.mp3', loops=-1)
 
-def win():
+def win_audio():
+    if pygame.mixer.music.get_busy()==True:
+        stop_song()
     pygame.mixer.music.load('audio/Winning_music.mp3')
     pygame.mixer.music.play()
+    text_box.config(state="normal")
+    text_box.delete(0.0, "end")
+    text_box.insert("end", "You escaped the dungeon! You win!.")
+    text_box.config(state="disabled")
 
 def stop_song():
     pygame.mixer.music.stop()
@@ -106,12 +117,22 @@ def nothingHere():
 def move(direction):
     global panel
     global cur_room
+    scream_time = random.randrange(1,30)
     if rooms[cur_room][direction] != None:
         cur_room = rooms[cur_room][direction]
         panel.grid_forget()
         newArea()
     else:
         nothingHere()
+    if scream_time%15==0:
+        scream()
+
+def win():
+    forward_button.configure(command=None)
+    down_button.configure(command=None)
+    left_button.configure(command=None)
+    right_button.configure(command=None)
+    win_audio()
 
 # exit button
 forward_button = tk.Button(root, image=upImgTK, command=lambda:move("next"))
@@ -126,7 +147,7 @@ left_button.grid(row=1, column=0, padx=5, pady=5)
 right_button = tk.Button(root, image=rightImgTK, command=lambda:move("right"))
 right_button.grid(row=1, column=2, padx=5, pady=5)
 
-background_first()
+background()
 
 root.mainloop()
 
