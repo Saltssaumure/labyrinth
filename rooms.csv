@@ -6,7 +6,7 @@ room_4,3,None,None,None,None,1/2
 room_5,3,None,None,None,None,3
 room_6,5,7,None,None,None,5/6
 room_7,6,9,8,13,None,4/5
-room_8,7,None,None,None,4
+room_8,7,None,None,None,None,4
 room_9,8,10,None,None,key,4
 room_10,9,12,11,None,None,5
 big_room,10,None,None,None,None,4
