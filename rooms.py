@@ -32,9 +32,12 @@ for room in rooms:
         for i in range(len(corridor_rooms)):
             corridor_rooms[i] = int(corridor_rooms[i])
     else:
-        corridor_rooms = int(corridor_rooms)
-        if corridor_rooms > 0:
-            corridor_rooms = [corridor_rooms]
+        try:
+            corridor_rooms = int(corridor_rooms)
+            if corridor_rooms > 0:
+                corridor_rooms = [corridor_rooms]
+        except:
+            pass
     room[3] = corridor_rooms
     room[-1] = mob_count
     room[1] = int(room[1])
