@@ -11,7 +11,7 @@ import pygame
 #initialise pygame
 pygame.mixer.init()
 
-inventory = []
+#inventory = []
 
 #music functions
 def background():
@@ -67,7 +67,7 @@ text_box.grid(row=3, column=0, columnspan=3, pady=5)
 text_box.insert("end", "Welcome to the Labyrinth.")
 text_box.config(state="disabled")
 
-testImg2 = Image.open("/images/rooms/" + rooms[cur_room]["name"] + ".jpg")
+testImg2 = Image.open("/images/rooms/eyes.jpg")
 testImg2 = testImg2.resize((500, 500), Image.Resampling.LANCZOS)
 testImgTk2 = ImageTk.PhotoImage(testImg2)
 
@@ -91,11 +91,11 @@ downImgTK = ImageTk.PhotoImage(downImg)
 leftImgTK = ImageTk.PhotoImage(leftImg)
 rightImgTK = ImageTk.PhotoImage(rightImg)
 
-imgTest = Image.open("/images/rooms/" + rooms[cur_room]["name"] + ".jpg")
+imgTest = Image.open("/images/rooms/eyes.jpg")
 imgTest = imgTest.resize((500, 500), Image.Resampling.LANCZOS)
 imgTestTk = ImageTk.PhotoImage(imgTest)
 
-imgTest = Image.open("/images/rooms/" + rooms[cur_room]["name"] + ".jpg")
+imgTest = Image.open("/images/rooms/eyes.jpg")
 imgTest = imgTest.resize((500, 500), Image.Resampling.LANCZOS)
 imgTestTk = ImageTk.PhotoImage(imgTest)
 
@@ -138,7 +138,7 @@ def pick_up():
     else:
         rooms[cur_room]["items"] = None
         get_key()
-        inventory += ["key"]
+        #inventory += ["key"]
 
 def win():
     forward_button.configure(command=None)
