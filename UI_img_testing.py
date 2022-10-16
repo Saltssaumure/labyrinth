@@ -65,7 +65,7 @@ def stop_song():
 #name behind next left right items mobs
 
 cur_room = 0
-dir = "R"
+dir = "L"
 
 # root window
 root = tk.Tk()
