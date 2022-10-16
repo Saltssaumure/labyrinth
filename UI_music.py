@@ -53,7 +53,7 @@ def win_audio():
     pygame.mixer.music.play()
     text_box.config(state="normal")
     text_box.delete(0.0, "end")
-    text_box.insert("end", "You escaped the dungeon! You win!.")
+    text_box.insert("end", "You escaped the dungeon! You win!. Thanks for playing :)")
     text_box.config(state="disabled")
     pygame.mixer.music.queue('audio/Ending_Music.mp3', loops=-1)
 
@@ -176,17 +176,20 @@ def move(direction):
     global panel
     global cur_room
     scream_time = random.randrange(1,30)
-    if rooms[cur_room][direction] != None:
-        panel.grid_forget()
-        newArea(rooms[cur_room][direction])
-        cur_room = rooms[cur_room][direction]
+    if rooms[cur_room]["name"]=="escape" and direction=="next":
+        win()
     else:
-        nothingHere()
-    if rooms[cur_room]["name"]=="boss_room"or rooms[cur_room]["name"]=="escape":
-        pass
-    else:
-        if scream_time%15==0:
-            scream()
+        if rooms[cur_room][direction] != None:
+            panel.grid_forget()
+            newArea(rooms[cur_room][direction])
+            cur_room = rooms[cur_room][direction]
+        else:
+            nothingHere()
+        if rooms[cur_room]["name"]=="boss_room" or rooms[cur_room]["name"]=="escape":
+            pass
+        else:
+            if scream_time%15==0:
+                scream()
 
 def pick_up():
     if rooms[cur_room]["items"]==None:
