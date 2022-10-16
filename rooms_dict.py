@@ -17,3 +17,9 @@ for idx,room in enumerate(rooms_list):
         "mobs": [mobs[random.randint(0,7)] for x in range(random.randint(int(room[6].strip().split("/")[0]), int(room[6].strip().split("/")[1])))],
         "dir": room[7].strip()
     }
+
+with open("mobs.csv", encoding='utf-8-sig') as file:
+    mobs_list = file.readlines()
+
+for i, mob in enumerate(mobs_list):
+    mobs_list[i] = mob.strip()

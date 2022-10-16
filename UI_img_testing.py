@@ -3,7 +3,7 @@ import tkinter as tk
 from PIL import Image, ImageTk
 if not hasattr(Image, 'Resampling'):  # Pillow<9.0
     Image.Resampling = Image
-from rooms_dict import rooms
+from rooms_dict import rooms, mobs_list
 from imgs_dict import read_images
 import random
 import pygame
@@ -78,6 +78,10 @@ rooms[None] = {"name": "eyes"}
 imgs_dictionary_full = read_images(rooms, "name", "images/rooms/", ".jpg")
 imgs_dictionary_left = read_images(rooms, "name", "images/rooms/", ".jpg", "left")
 imgs_dictionary_right = read_images(rooms, "name", "images/rooms/", ".jpg", "right")
+
+mob_dict = {}
+for mob in mobs_list:
+    mob_dict[mob] = ImageTk.PhotoImage(Image.open("images/monsters/" + mob + ".jpg").resize((500, 500), Image.Resampling.LANCZOS))
 
 text_box = tk.Text(root, height=1, width=50)
 text_box.grid(row=3, column=0, columnspan=3, pady=5)
