@@ -15,6 +15,8 @@ inventory = []
 
 #music functions
 def background():
+    if pygame.mixer.music.get_busy()==True:
+        stop_song()
     pygame.mixer.music.load('audio/Background_music.mp3')
     pygame.mixer.music.play(-1)
 
