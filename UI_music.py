@@ -43,8 +43,17 @@ def get_key():
     text_box.config(state="normal")
     text_box.delete(0.0, "end")
     text_box.insert("end", "You picked up a key.")
+    pick_up_button.configure(image=usedKeyImgTK, command=lambda:use_key())
     text_box.config(state="disabled")
+    
     pygame.mixer.music.queue('audio/Background_music.mp3', loops=-1)
+
+def use_key():
+    text_box.config(state="normal")
+    text_box.delete(0.0, "end")
+    text_box.insert("end", "You used the key.")
+    pick_up_button.configure(image=pickUpImgTK, command=lambda:pick_up())
+    text_box.config(state="disabled")
 
 def win_audio():
     if pygame.mixer.music.get_busy()==True:
@@ -53,7 +62,7 @@ def win_audio():
     pygame.mixer.music.play()
     text_box.config(state="normal")
     text_box.delete(0.0, "end")
-    text_box.insert("end", "You escaped the dungeon! You win!. Thanks for playing :)")
+    text_box.insert("end", "You escaped the dungeon! You win! :)")
     text_box.config(state="disabled")
     pygame.mixer.music.queue('audio/Ending_Music.mp3', loops=-1)
 
@@ -115,6 +124,9 @@ panelCompass.grid(row=2, column=2)
 pickUpImg = Image.open("images/actions/pick_up.jpg")
 pickUpImg = pickUpImg.resize((40, 40))
 
+usedKeyImg = Image.open("images/actions/key.jpg")
+usedKeyImg = usedKeyImg.resize((40, 40))
+
 upImg = Image.open("images/actions/up.jpeg")
 upImg = upImg.resize((40, 40))
 downImg = upImg.rotate(180)
@@ -122,6 +134,7 @@ leftImg = upImg.rotate(90)
 rightImg = upImg.rotate(270)
 
 pickUpImgTK = ImageTk.PhotoImage(pickUpImg)
+usedKeyImgTK = ImageTk.PhotoImage(usedKeyImg)
 
 upImgTK = ImageTk.PhotoImage(upImg)
 downImgTK = ImageTk.PhotoImage(downImg)
