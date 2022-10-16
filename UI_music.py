@@ -69,7 +69,7 @@ def stop_song():
 
 #name behind next left right items mobs
 
-cur_room = 34
+cur_room = 0
 dir = "R"
 
 # root window
