@@ -20,7 +20,7 @@ crdr_10,13,None,17,19,None,0/0,D
 dead_end_4,18,None,None,None,None,0/0,R
 crdr_9,21,None,None,15,None,0/0,R
 crdr_8,15,22,14,20,None,0/0,D
-crdr_13,21,23,24,None,None,0/0,D
+crdr_13,21,23,34,None,None,0/0,D
 room_10,22,None,24,None,None,4/4,R
 dead_end_3,22,None,None,23,None,0/0,D
 room_9,17,None,16,26,None,4/4,L
