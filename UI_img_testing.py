@@ -14,6 +14,18 @@ pygame.mixer.init()
 inventory = []
 
 #music functions
+def win_audio():
+    if pygame.mixer.music.get_busy()==True:
+        stop_song()
+    pygame.mixer.music.load('audio/Winning_music.mp3')
+    pygame.mixer.music.play()
+    text_box.config(state="normal")
+    text_box.delete(0.0, "end")
+    text_box.insert("end", "You escaped the dungeon! You win! :)")
+    text_box.config(state="disabled")
+    pygame.mixer.music.queue('audio/Ending_Music.mp3', loops=-1)
+
+
 def background():
     if pygame.mixer.music.get_busy()==True:
         stop_song()
@@ -175,14 +187,17 @@ def move(direction):
     global panel
     global cur_room
     scream_time = random.randrange(1,30)
-    if rooms[cur_room][direction] != None:
-        panel.grid_forget()
-        newArea(rooms[cur_room][direction])
-        cur_room = rooms[cur_room][direction]
+    if rooms[cur_room]["name"]=="escape" and direction=="next":
+        win()
     else:
-        nothingHere()
-    if scream_time%15==0:
-        scream()
+        if rooms[cur_room][direction] != None:
+            panel.grid_forget()
+            newArea(rooms[cur_room][direction])
+            cur_room = rooms[cur_room][direction]
+        else:
+            nothingHere()
+        if scream_time%15==0:
+            scream()
 
 def pick_up():
     if rooms[cur_room]["items"]==None:
@@ -195,6 +210,13 @@ def pick_up():
         get_key()
         inventory += ["key"]
 
+def win():
+    forward_button.configure(command=None)
+    down_button.configure(command=None)
+    left_button.configure(command=None)
+    right_button.configure(command=None)
+    pick_up_button.configure(command=None)
+    win_audio()
 
 
 
