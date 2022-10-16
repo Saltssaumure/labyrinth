@@ -13,10 +13,16 @@ pygame.mixer.init()
 
 inventory = []
 
+jumpscares = ["images/jumpscares/clown.jpg", "images/jumpscares/ghost.jpg", 
+              "images/jumpscares/ghost2.jpg", "images/jumpscares/undead.jpg", "images/jumpscares/undead2.jpg"]
+
 #music functions
 def background():
+    if pygame.mixer.music.get_busy()==True:
+        stop_song()
     pygame.mixer.music.load('audio/Background_music.mp3')
     pygame.mixer.music.play(-1)
+    
 
 def scream():
     if pygame.mixer.music.get_busy()==True:
@@ -49,6 +55,7 @@ def win_audio():
     text_box.delete(0.0, "end")
     text_box.insert("end", "You escaped the dungeon! You win!.")
     text_box.config(state="disabled")
+    pygame.mixer.music.queue('audio/Ending_Music.mp3', loops=-1)
 
 def boss_music():
     if pygame.mixer.music.get_busy()==True:
@@ -63,36 +70,58 @@ def stop_song():
 #name behind next left right items mobs
 
 cur_room = 0
+dir = "R"
 
 # root window
 root = tk.Tk()
 root.title('Labyrinth')
+root["bg"] = "#333"
 
-imgs_dictionary = read_images(rooms, "name", "images/rooms/", ".jpg")
+# Add None room to display image for rooms with no left/right path
+rooms[None] = {"name": "eyes"}
+
+imgs_dictionary_full = read_images(rooms, "name", "images/rooms/", ".jpg")
+imgs_dictionary_left = read_images(rooms, "name", "images/rooms/", ".jpg", "left")
+imgs_dictionary_right = read_images(rooms, "name", "images/rooms/", ".jpg", "right")
 
 text_box = tk.Text(root, height=1, width=50)
 text_box.grid(row=3, column=0, columnspan=3, pady=5)
 text_box.insert("end", "Welcome to the Labyrinth.")
 text_box.config(state="disabled")
 
-testImg2 = Image.open("images/rooms/" + rooms[cur_room]["name"] + ".jpg")
-testImg2 = testImg2.resize((500, 500), Image.Resampling.LANCZOS)
-testImgTk2 = ImageTk.PhotoImage(testImg2)
+panel = tk.Label(root, image = imgs_dictionary_full[cur_room], borderwidth=0)
+panel.grid(row = 0, column=1, columnspan=1)
+panelleft = tk.Label(root, image = imgs_dictionary_left[None], borderwidth=0)
+panelleft.grid(row = 0, column=0, columnspan=1)
+panelright = tk.Label(root, image = imgs_dictionary_right[None], borderwidth=0)
+panelright.grid(row = 0, column=2, columnspan=1)
 
-"""
-testImg = Image.open("images/test.png")
-testImg = testImg.resize((500, 500), Image.Resampling.LANCZOS)
-testImgTk = ImageTk.PhotoImage(testImg)
-"""
-panel = tk.Label(root, image = testImgTk2)
-panel.grid(row = 0, column=0, columnspan=3)
 
+upCompass = Image.open("images/icons/compass.jpg")
+upCompass = upCompass.resize((60, 60))
+downCompass = upCompass.rotate(180)
+leftCompass = upCompass.rotate(90)
+rightCompass = upCompass.rotate(270)
+
+compass = {}
+compass["U"] = ImageTk.PhotoImage(upCompass)
+compass["D"] = ImageTk.PhotoImage(downCompass)
+compass["L"] = ImageTk.PhotoImage(leftCompass)
+compass["R"] = ImageTk.PhotoImage(rightCompass)
+
+panelCompass = tk.Label(root, image=compass[dir])
+panelCompass.grid(row=2, column=2)
+
+pickUpImg = Image.open("images/actions/pick_up.jpg")
+pickUpImg = pickUpImg.resize((40, 40))
 
 upImg = Image.open("images/actions/up.jpeg")
 upImg = upImg.resize((40, 40))
 downImg = upImg.rotate(180)
 leftImg = upImg.rotate(90)
 rightImg = upImg.rotate(270)
+
+pickUpImgTK = ImageTk.PhotoImage(pickUpImg)
 
 upImgTK = ImageTk.PhotoImage(upImg)
 downImgTK = ImageTk.PhotoImage(downImg)
@@ -105,17 +134,32 @@ imgTestTk = ImageTk.PhotoImage(imgTest)
 
 #pass through variable here to change image
 def newArea(room_index):
+    global panel
+    global panelleft
+    global panelright
+    global panelCompass
+    global rooms
     print(rooms[room_index]["name"])
+
     if rooms[room_index]["name"]=="boss_room":
         boss_music()
     elif rooms[room_index]["name"]=="crdr_14" or rooms[room_index]["name"]=="escape":
         background()
     panel = tk.Label(root, image=imgTestTk)
-    panel.grid(row=0,column=0,columnspan=3)
+
+    panelCompass.grid_forget()
+    panelCompass = tk.Label(root,image=compass[rooms[room_index]["dir"]])
+    panelCompass.grid(row=2,column=2)
 
     panel.grid_forget()
-    panel = tk.Label(root,image=imgs_dictionary[room_index])
-    panel.grid(row=0,column=0,columnspan=3)
+    panel = tk.Label(root,image=imgs_dictionary_full[room_index], borderwidth=0)
+    panel.grid(row=0,column=1,columnspan=1)
+    panelleft.grid_forget()
+    panelleft = tk.Label(root,image=imgs_dictionary_left[rooms[room_index]["left"]], borderwidth=0)
+    panelleft.grid(row=0,column=0,columnspan=1)
+    panelright.grid_forget()
+    panelright = tk.Label(root,image=imgs_dictionary_right[rooms[room_index]["right"]], borderwidth=0)
+    panelright.grid(row=0,column=2,columnspan=1)
 
     text_box.config(state="normal")
     text_box.delete(0.0, "end")
@@ -138,8 +182,11 @@ def move(direction):
         cur_room = rooms[cur_room][direction]
     else:
         nothingHere()
-    if scream_time%15==0:
-        scream()
+    if rooms[cur_room]["name"]=="boss_room"or rooms[cur_room]["name"]=="escape":
+        pass
+    else:
+        if scream_time%15==0:
+            scream()
 
 def pick_up():
     if rooms[cur_room]["items"]==None:
@@ -173,8 +220,8 @@ left_button.grid(row=1, column=0, padx=5, pady=5)
 right_button = tk.Button(root, image=rightImgTK, command=lambda:move("right"))
 right_button.grid(row=1, column=2, padx=5, pady=5)
 
-pick_up_button = tk.Button(root, image=downImgTK, command=lambda:pick_up())
-pick_up_button.grid(row=2, column=2, padx=5, pady=5)
+pick_up_button = tk.Button(root, image=pickUpImgTK, command=lambda:pick_up())
+pick_up_button.grid(row=2, column=0, padx=5, pady=5)
 
 background()
 
